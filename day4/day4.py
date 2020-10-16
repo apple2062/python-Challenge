@@ -11,7 +11,9 @@ import requests
  #try에서 판별하고 except에서 down. else에서 up
  #단순 url이 유효한지 유효하지 않은지만 판별,추가적인 코드라인은 필요없이
  #for 내부에 try-except를 넣는게 낫다
- 
+ '''문제점 : yes_or_no()때 dfjalkf처럼
+ 유효하지 않는 대답 치고나서 y 치면 Bye 뒤에 
+ url을 물어봄. 물어보면 안되는데..'''
 def add_http(url):
   if url[:4] != "http": #http로 시작하지 않을 때,
     url_modify = "http://"+url
@@ -22,7 +24,7 @@ def add_http(url):
 def yesno(startover):
     print("Do you want to start over? y/n")
     y_or_n = input()
-    if y_or_n == 'n':
+    if y_or_n == 'y':
         startover = False
         print("k, Bye!")
         return startover
@@ -40,7 +42,7 @@ while True:
     print("please wrute a URL or URLs you want to check. (seperated by comma)")
     urls = input().split(",")
     for i in urls:
-        url_arr.append(add_http(i.strip()))
+        url_arr.append(add_http(i.strip().lower()))
     
     for i in url_arr:
         try:
