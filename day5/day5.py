@@ -34,7 +34,7 @@ def check_invalid():
     check_invalid()
   else:
     if number in country_number:
-      print(f"You choose {country[number-1][0]} \nThe currency node is {country[number][1]}")
+      print(f"You choose {country[number-1][0]} \nThe currency node is {country[number-1][1]}")
     else:
       print("Choose a number from the list.")
       check_invalid()
@@ -44,11 +44,14 @@ idx = 1
 for i in tr:
   find_country = i.find_all('td')
   #code 가 none 값인 경우
-  if find_country[2].string == None:
+  if find_country[1].string == "No universal currency":
     continue
   country.append((find_country[0].string.capitalize(),find_country[2].string))
   country_number.append(idx)
+  #print(find_country[0].string.capitalize(),find_country[2].string ,idx, country.index(find_country[0].string.capitalize()))
   idx += 1
+print(country[0])
+print(country_number)
 
 print("Hello! Please choose select a country by number:")
 for idx,val in enumerate(country):
