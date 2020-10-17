@@ -1,60 +1,77 @@
 import os
 import requests
 from bs4 import BeautifulSoup
+from babel.numbers import format_currency
+
+
+"""
+Use the 'format_currency' function to format the output of the conversion
+format_currency(AMOUNT, CURRENCY_CODE, locale="ko_KR" (no need to change this one))
+"""
+
+#"Welcome to CurrencyConvert PRO 2000"
+
+#"Where are you from? Choose a country by number" > #:
+#"Now chosse another country" > #:
+#"How many {COP} do tou want to convert to {KRW}?"
+# > "That wasn't a number" / "{COP} { } is {}원"
+
+#After getting the countries and their codes let the user choose two countries.
+#Then let the user write an amount of currency 
+#Then send the two currency codes and the amounts to a URL
+# >https://transferwise.com/gb/currency-converter/gbp-to-usd-rate?amount=50
 
 os.system("clear")
-url = "https://www.iban.com/currency-codes"
+url1 = "https://www.iban.com/currency-codes"
 
-# gets a list of countries from a website with their currency codes
-# let the user choose a country and display the currency code of that country.
 
-# Save the name of the country and the "Alpha-3 code" in an array.
-# Some countries don't have currency (No universal currency), don't add them to the list.
-# Check the user input, only numbers from inside the country list are allowed.
-# When a country is selected, show the name and currency code.
-# Use try/except when converting strings to numbers. ( int(input()) )
-
-# Hello! Please choose select a country by number: #처음
-# That wasn't a number. #이상한 숫자아닌 단어 입력 시
-# Choose a number from the list. #크롤링한 숫자 안에 속하지 않을 때
-# You choose {} / The currency node is {}
-
-result = requests.get(url)
-soup = BeautifulSoup(result.text, "html.parser")
+result1 = requests.get(url1)
+soup1 = BeautifulSoup(result1.text, "html.parser")
 country = []
-code = []
-country_number = []
 
-def check_invalid():
+print("Welcome to CurrencyConvert PRO 2000")
+
+def transferwise(money):
+  url2 = f"https://transferwise.com/gb/currency-converter/{country[50][1].lower()}-to-{country[126][1].lower()}-rate?amount={money}"
+  result2 = requests.get(url2)
+  soup2 = BeautifulSoup(result2.text,"html.parser")
+  amount = soup2.find("div",{"class":"col-lg-6 text-xs-center text-lg-left"}).find("span",{"class":"text-success"}).string
+  return float(amount)*money
+
+
+def converting(first,second):
+  print(f"How many {country[first][1]} do you want to convert to {country[second][1]}?")
   try:
-    number = input("#:")
-    number = int(number)
+    convert_money = int(input())
   except:
-    print("That wasn't a number.")
-    check_invalid()
+    print("That wasn't a number")
+    converting(first,second)
   else:
-    if number in country_number:
-      print(f"You choose {country[number-1][0]} \nThe currency node is {country[number-1][1]}")
-    else:
-      print("Choose a number from the list.")
-      check_invalid()
-tb = soup.find("tbody")
+    reslut_converting = transferwise(convert_money)
+    result_formatting = format_currency(reslut_converting, "KRW", locale="ko_KR")
+    print(f"{country[first][1]} {convert_money} is {result_formatting}")
+
+tb = soup1.find("tbody")
 tr = tb.find_all('tr')
-idx = 1
 for i in tr:
   find_country = i.find_all('td')
   #code 가 none 값인 경우
   if find_country[1].string == "No universal currency":
     continue
   country.append((find_country[0].string.capitalize(),find_country[2].string))
-  country_number.append(idx)
-  #print(find_country[0].string.capitalize(),find_country[2].string ,idx, country.index(find_country[0].string.capitalize()))
-  idx += 1
-print(country[0])
-print(country_number)
-
-print("Hello! Please choose select a country by number:")
 for idx,val in enumerate(country):
   print(f'# {idx+1} {val[0]}')
 
-check_invalid()
+print("Where are you from? Choose a country by number")
+
+country_first = int(input("#: "))
+print(f"{country[country_first][0]}")
+
+
+print("Now choose another country")
+country_second = int(input("#:"))
+print(f"{country[country_second][0]}")
+
+converting(country_first,country_second)
+
+
