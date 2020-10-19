@@ -5,14 +5,7 @@ from bs4 import BeautifulSoup
 
 os.system("clear")
 alba_url = "http://www.alba.co.kr"
-
-#Goes to http://www.alba.co.kr and scrapes the companies on the front page.
-#Then go to the page of each company and scrape each job.
-#Create a .csv file for each company and write the jobs on it.
-#제목 : 회사이름.csv((주)노랑통닭.csv)
-#내용: place, title, time, pay, date(22분전 ,, 뭐이런식)
-#근데 내용은 브랜드별 각 사이트 들어가지 않아도 나와있네..!
-#(서울 구로구 , 노랑통닭 인천 주안점, 시간, "월급 20000000원", 33분전)
+MAX_PAGE_SIZE = 1500 #브랜드별 몇개의 정보를 파일로 저장할 것인지 변수 지정
 
 def save_to_file(informations,brand_name):
   file = open(f"{brand_name}.csv", mode = "w")
@@ -25,13 +18,16 @@ def save_to_file(informations,brand_name):
 
 #알바천국은, indeed 처럼 메인 페이지가 여러페이지가 아니므로, get_last_page 를 구할 필요 없음
 def brand_info(url,formalname):
-  #http://lotteria.alba.co.kr/job/brand/?page={ }&pagesize={50}
   for brand_url in url:
+    #brand_url = http://lotteria.alba.co.kr/
+    #url_for_parse = http://lotteria.alba.co.kr/job/brand/?page=1&pagesize={}
     informations = []
-    formal_name = formalname[url.index(brand_url)]
-    print(brand_url)
+    url_for_parse = brand_url + f'job/brand/?page=1&pagesize={MAX_PAGE_SIZE}'
 
-    company = requests.get(brand_url)
+    print(url_for_parse)
+
+    formal_name = formalname[url.index(brand_url)]
+    company = requests.get(url_for_parse)
     soup_company = BeautifulSoup(company.text,"html.parser")
     company_results = soup_company.find("div",{"id":"NormalInfo"}).find("tbody").find_all("tr")
     if len(company_results)==1:
