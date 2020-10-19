@@ -22,8 +22,10 @@ def brand_info(url,formalname):
     #brand_url = http://lotteria.alba.co.kr/
     #url_for_parse = http://lotteria.alba.co.kr/job/brand/?page=1&pagesize={}
     informations = []
-    url_for_parse = brand_url + f'job/brand/?page=1&pagesize={MAX_PAGE_SIZE}'
-
+    if brand_url=="http://www.alba.co.kr/job/brand/pspfnd/":
+      url_for_parse = brand_url + f'?page=1&pagesize={MAX_PAGE_SIZE}'
+    else:
+      url_for_parse = brand_url + f'job/brand/?page=1&pagesize={MAX_PAGE_SIZE}'
     print(url_for_parse)
 
     formal_name = formalname[url.index(brand_url)]
@@ -65,3 +67,6 @@ def extract_brands(): # 브랜드마다 지정된 a href 가져와서 출력하�
   brand_info(brand_urls,brand_formalname)
   
 extract_brands()
+
+
+
