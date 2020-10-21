@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://andybrewer.github.io/mvp/mvp.css" rel="stylesheet"></link>
+  <title> this page is COMMENTS_ISSUES </title>
+</head>
+
+<body>
+  <header>
+    <h1> {{result.title}} </h1>
+    <div>
+      {{result.points}} points | By {{result.author}} | <a href="{{result.url}}">{{result.url}}</a>
+
+    </div>
+  </header>
+
+  <main>
+    {%for chat in result.children%}
+
+      {%if chat.author == None  %} <!--{%%} 안에는 변수로 {{}}안하고 그냥 변수명 바로쓴다.-->
+          [deleted]
+
+      {%else%}
+        <div>
+          <strong> {{chat.author}} : </strong>
+          <p></p>
+          <p>
+            {{chat.text|safe}}
+          </p>
+        </div>
+
+        
+        {%endif%}
+      <hr>
+    {%endfor%}
+
+  </main>
+  
+</body>
+
+</html>
