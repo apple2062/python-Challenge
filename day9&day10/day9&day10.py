@@ -1,10 +1,16 @@
 import requests
 from flask import Flask, render_template, request , redirect
+#Using this boilerplate we are going to build a mini clone of the 
+#Hacker News Website(https://news.ycombinator.com/)
+#using the Hacker News Search API(https://hn.algolia.com/api) and Flask.
+
+
 #The website should have the following routes:
 #/
 #/?order_by=new
 #/?order_by=popular
 #/<id>
+
 #Implement a fake DB like on the video #4.6 so 'new' and 'popular' can load faster.
 #The template should reflect the current order_by selection.
 #The main page "/" should by default order_by popular
@@ -30,6 +36,9 @@ app = Flask("DayNine") #앱 이름 정하기
 
 @app.route("/") #home 부분 (by default order_by popular)
 def home():
+  #order_by = request.args.get('order_by') or "popular" 이렇게 해봐! 
+  # 그럼 / 일때(query string이 없을때) 
+  #request.args.get("order_by") 가 None 이라서 default로 popular가 order_by에 저장 될 것이다.
   order = request.args.get('order_by') or 'popular'
   if order == "new":
     order_result = requests.get(new).json()
