@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://andybrewer.github.io/mvp/mvp.css" rel="stylesheet"></link>
+</head>
+
+<body>
+  <header>
+		<h1>
+			<a href="/">Reddit Reader</a>
+		</h1>
+		<h3>
+			Reading : {% for subreddit in subreddit_list %} 
+      r/{{subreddit}}
+      {% endfor %}
+		</h3>
+    <main>
+    {% for subreddit in subreddits.keys() %}
+        <div class="filter_subreddit">{{subreddit}}</div>
+      {% for post in subreddits[subreddit] %}
+        <div>
+          <h3>
+            <a href="{{post[1]}}" target="_blank">{{post[0]}}</a>   
+          </h3>
+          <h4>{{post[2]}} upvotes &middot; r/{{subreddit}}</h4>
+        </div>
+        <hr>
+      {% endfor %}
+    {% endfor %}
+  </main>
+  
+</body>
+
+</html>
