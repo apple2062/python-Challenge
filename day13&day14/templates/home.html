@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href={{url_for("static",filename="homestyles.css")}} rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <title>Search Jobs</title>
+  </head>
+  <body id='home-body'>
+    <div id="recently-container">
+      <div class="recently-block">
+        <span class="recently-text">Recently</span>
+        <ul>
+          {% if recently_list %}
+          {% for keyword in recently_list%}
+          <li><a class="rec-link" href={{"/jobs?field="+keyword}}>{{keyword}}</a></li>
+          {% endfor %}
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+    <div id="search-container">
+      <div class="text">Search Jobs</div>
+      <form action="/jobs" class="jobsForm">
+        <input type="text" class="jobsInput" placeholder="Write a keyword" name="field" required autofocus/>
+        <button type="submit" class="jobsButton">
+          <span class="material-icons">search</span>
+        </button>
+      </form>
+    </div>
+  </body>
+</html>

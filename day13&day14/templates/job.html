@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href={{url_for('static',filename='jobstyles.css')}} />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <title>Searched</title>
+  </head>
+  <body>
+    <div id="tohome">
+      <a href="/" class="home-link">
+        <i class="material-icons" style="font-size: 40px;">navigate_before</i>
+      </a>
+    </div>
+    <div id="result-container">
+      <div class="result-header">
+        <div class="result-text">You Searched for : {{searched}}</div>
+        <div class="download">
+          <form action="/download.csv">
+            <button class="down-link" type="submit" name="file" value="{{searched}}">
+              Download to CSV
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="result-main">
+        <div class="result-list">
+          {% for job in job_info %}
+          <div>
+              <div class="result-box">
+                  <div class="result-title">{{job.title}}</div>
+                  <div class="result-company">{{job.company}}</div>
+                  <div class="result-apply">
+                      <a href={{job.link}} target="_blank">Apply</a>
+                  </div>
+              </div>
+              <hr />
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
